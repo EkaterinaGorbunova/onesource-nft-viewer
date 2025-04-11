@@ -1,5 +1,7 @@
 # OneSource NFT Viewer
 
+![Project Screenshot](/public/screenshot.png)
+
 A Next.js application for viewing NFT metadata and images using the OneSource GraphQL API. This project demonstrates how to fetch and display NFT information including token details, contract information, and associated images.
 
 ## Features
