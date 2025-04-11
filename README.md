@@ -12,6 +12,55 @@ A Next.js application for viewing NFT metadata and images using the OneSource Gr
 - GraphQL integration with OneSource API
 - TypeScript support
 
+## Technical Challenges & Solutions
+
+### 1. IPFS Image Handling
+**Challenge**: Next.js Image component requires absolute URLs, but NFT images often come as IPFS hashes.
+**Solution**: Implemented URL transformation utility:
+```typescript
+const getImageUrl = (imageUrl: string) => {
+  if (imageUrl.startsWith('Qm')) {
+    return `https://ipfs.io/ipfs/${imageUrl}`;
+  }
+  return imageUrl;
+};
+```
+
+### 2. Multiple Contract Integration
+**Challenge**: Needed to handle data from different smart contracts (NFT and Balances).
+**Solution**: Implemented parallel data fetching using Promise.all:
+```typescript
+const [nftData, balancesData] = await Promise.all([
+  // NFT contract query
+  // Balances contract query
+]);
+```
+
+### 3. Image Domain Security
+**Challenge**: Next.js Image optimization requires explicit domain allowlist.
+**Solution**: Configured next.config.ts with common NFT image hosting domains:
+```typescript
+images: {
+  domains: [
+    'api.onesource.io',
+    'arweave.net',
+    'ipfs.io',
+    'gateway.pinata.cloud'
+  ]
+}
+```
+
+### 4. Type Safety with GraphQL
+**Challenge**: Maintaining type safety between GraphQL responses and TypeScript.
+**Solution**: Implemented comprehensive type definitions for API responses:
+```typescript
+type TokenImage = {
+  status: string;
+  url: string;
+  contentType: string;
+  // ...
+};
+```
 
 ## Technology Stack
 
@@ -85,3 +134,5 @@ npm run start
 ├── next.config.ts      # Next.js configuration
 └── tsconfig.json       # TypeScript configuration
 ```
+
+
