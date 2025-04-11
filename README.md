@@ -2,65 +2,21 @@
 
 ![Project Screenshot](/public/screenshot.png)
 
-A Next.js application for viewing NFT metadata and images using the OneSource GraphQL API. This project demonstrates how to fetch and display NFT information including token details, contract information, and associated images.
+A Next.js application for viewing NFT metadata and images using the OneSource GraphQL API. This project demonstrates how to fetch and display NFT information including token details, contract information, and associated images. The application also shows token balances for specific wallet addresses, allowing users to view their NFT holdings across different contracts.
+
+Try the OneSource API in the [Playground](https://playground.onesource.io/)
 
 ## Features
 
 - NFT metadata display
 - Token image rendering
 - Contract information viewing
+- Token balances tracking
+  - View balances for specific wallet addresses
+  - Display NFT holdings across multiple contracts
+  - Visual representation of owned tokens
 - GraphQL integration with OneSource API
 - TypeScript support
-
-## Technical Challenges & Solutions
-
-### 1. IPFS Image Handling
-**Challenge**: Next.js Image component requires absolute URLs, but NFT images often come as IPFS hashes.
-**Solution**: Implemented URL transformation utility:
-```typescript
-const getImageUrl = (imageUrl: string) => {
-  if (imageUrl.startsWith('Qm')) {
-    return `https://ipfs.io/ipfs/${imageUrl}`;
-  }
-  return imageUrl;
-};
-```
-
-### 2. Multiple Contract Integration
-**Challenge**: Needed to handle data from different smart contracts (NFT and Balances).
-**Solution**: Implemented parallel data fetching using Promise.all:
-```typescript
-const [nftData, balancesData] = await Promise.all([
-  // NFT contract query
-  // Balances contract query
-]);
-```
-
-### 3. Image Domain Security
-**Challenge**: Next.js Image optimization requires explicit domain allowlist.
-**Solution**: Configured next.config.ts with common NFT image hosting domains:
-```typescript
-images: {
-  domains: [
-    'api.onesource.io',
-    'arweave.net',
-    'ipfs.io',
-    'gateway.pinata.cloud'
-  ]
-}
-```
-
-### 4. Type Safety with GraphQL
-**Challenge**: Maintaining type safety between GraphQL responses and TypeScript.
-**Solution**: Implemented comprehensive type definitions for API responses:
-```typescript
-type TokenImage = {
-  status: string;
-  url: string;
-  contentType: string;
-  // ...
-};
-```
 
 ## Technology Stack
 
@@ -73,10 +29,11 @@ type TokenImage = {
   - Comprehensive NFT metadata
   - Token information
   - Contract details
-  - High-quality NFT images
+  - NFT images
   - Real-time blockchain data
 
 ## Prerequisites
+
 - Node.js (version 18.18.0 or higher)
 - npm package manager
 
@@ -130,9 +87,61 @@ npm run start
 │   │   ├── layout.tsx    # Root layout
 │   │   ├── page.tsx      # Main NFT viewer page
 │   │   └── globals.css   # Global styles
-├── public/              # Static assets
-├── next.config.ts      # Next.js configuration
-└── tsconfig.json       # TypeScript configuration
+├── public/               # Static assets
+├── next.config.ts        # Next.js configuration
+└── tsconfig.json         # TypeScript configuration
 ```
+
+
+## Technical Challenges and Solutions
+
+### 1. IPFS Image Handling
+**Challenge**: Next.js Image component requires absolute URLs, but NFT images often come as IPFS hashes.
+**Solution**: Implemented URL transformation utility:
+```typescript
+const getImageUrl = (imageUrl: string) => {
+  if (imageUrl.startsWith('Qm')) {
+    return `https://ipfs.io/ipfs/${imageUrl}`;
+  }
+  return imageUrl;
+};
+```
+
+### 2. Multiple Contract Integration
+**Challenge**: Needed to handle data from different smart contracts (NFT and Balances).
+**Solution**: Implemented parallel data fetching using Promise.all:
+```typescript
+const [nftData, balancesData] = await Promise.all([
+  // NFT contract query
+  // Balances contract query
+]);
+```
+
+### 3. Image Domain Security
+**Challenge**: Next.js Image optimization requires explicit domain allowlist.
+**Solution**: Configured next.config.ts with common NFT image hosting domains:
+```typescript
+images: {
+  domains: [
+    'api.onesource.io',
+    'arweave.net',
+    'ipfs.io',
+    'gateway.pinata.cloud'
+  ]
+}
+```
+
+### 4. Type Safety with GraphQL
+**Challenge**: Maintaining type safety between GraphQL responses and TypeScript.
+**Solution**: Implemented comprehensive type definitions for API responses:
+```typescript
+type TokenImage = {
+  status: string;
+  url: string;
+  contentType: string;
+  // ...
+};
+```
+
 
 
