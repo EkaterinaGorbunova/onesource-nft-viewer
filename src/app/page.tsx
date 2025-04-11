@@ -1,6 +1,7 @@
 // app/page.tsx
 import { GraphQLClient, gql } from 'graphql-request'
 import Link from 'next/link'
+import Image from 'next/image'
 
 const CONTRACT = '0xc9041f80dce73721a5f6a779672ec57ef255d27c'
 const TOKEN_ID = '29'
@@ -112,11 +113,13 @@ export default async function Home() {
       <h1 className="text-2xl font-bold">{nft.contract.name} #{nft.tokenID}</h1>
 
       {nft.image && nft.image.status === 'OK' && (
-        <div className="my-8">
-          <img
+        <div className="my-8 relative w-[150px] h-[150px]">
+          <Image
             src={nft.image.url}
             alt={`${nft.contract.name} #${nft.tokenID}`}
-            className="max-w-[150px] h-auto rounded-lg shadow-md"
+            fill
+            className="rounded-lg shadow-md object-contain"
+            sizes="150px"
           />
         </div>
       )}
@@ -142,5 +145,6 @@ export default async function Home() {
     </div>
   )
 }
+
 
 
